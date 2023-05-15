@@ -10,6 +10,75 @@
 
 </head>
 <body>
-  
+  <div class="container">
+    <div class="row mt-3 mb-3">
+      <div class="col-md-12">
+          <div class="card">
+            <div class="card-header bg-info text-light">
+                Filtra tus super Héroes
+            </div>
+            <div class="card-body">
+              <select name="" id="publishers" class="form-select">
+                <option value="">Seleccione</option>
+              </select>
+            </div>
+            
+          </div>
+      </div>
+    
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table tbale-sm table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Nombre completo</th>
+              <th>Género</th>
+              <th>Color piel</th>
+              <th>Raza</th>
+              <th>Bando</th>
+              <th>Altura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--asincronico-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      const lista = document.querySelector("#publishers");
+
+      function obtenerPublishers(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion","listarpublisher");
+           
+          fetch('../controller/superhero.controller.php',{
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos =>{
+              datos.forEach(element => { //recorre
+                const optionTag = document.createElement("option");
+                optionTag.text = element.publisher_name; 
+                lista.appendChild(optionTag);
+              });
+            })
+        }
+
+        obtenerPublishers();
+
+    });
+      
+  </script>
+
 </body>
 </html>

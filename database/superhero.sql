@@ -30,8 +30,15 @@ BEGIN
 		LEFT  JOIN publisher ON publisher.`id` = superhero.`publisher_id`
 		LEFT  JOIN alignment ON alignment.`id` = superhero.`alignment_id`
 	WHERE superhero.`publisher_id` = _publisher_id
-	ORDER BY superhero.`ìd`;
+	ORDER BY superhero.`id`;
 END $$
 
-CALL spu_superhero_list(11);
-		
+CALL spu_superhero_list(2);
+
+DELIMITER $$
+CREATE PROCEDURE spu_publisher_list()
+BEGIN
+	SELECT publisher_name FROM publisher;
+END $$
+
+CALL spu_publisher_list();
