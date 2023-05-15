@@ -1,5 +1,5 @@
 <?php
-  require_once '../model/superhero.php';
+  require_once '../model/Publisher.php';
 
   if(isset($_POST['operacion'])){
      

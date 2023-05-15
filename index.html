@@ -30,7 +30,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table tbale-sm table-striped">
+        <table id="tablaHero" class="table tbale-sm table-striped">
           <thead>
             <tr>
               <th>ID</th>
@@ -53,14 +53,17 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
+
+      const tablaHero = document.querySelector("#tablaHero");
+      const cuerpoTabla = document.querySelector('tbody');
       const lista = document.querySelector("#publishers");
+
 
       function obtenerPublishers(){
           const parametros = new URLSearchParams();
           parametros.append("operacion","listarpublisher");
            
-          fetch('../controller/superhero.controller.php',{
+          fetch('./controller/Publisher.php',{
             method: 'POST',
             body: parametros
           })
@@ -68,13 +71,53 @@
             .then(datos =>{
               datos.forEach(element => { //recorre
                 const optionTag = document.createElement("option");
+                optionTag.value = element.id; 
                 optionTag.text = element.publisher_name; 
                 lista.appendChild(optionTag);
               });
             })
         }
 
-        obtenerPublishers();
+
+      function obtenerSuperHero(){
+        const parametros = new URLSearchParams();
+        parametros.append("operacion","listarSuperhero");
+        parametros.append("publisher_id", parseInt(lista.value));
+
+        fetch('./controller/SuperHero.php',{
+            method: 'POST',
+            body: parametros
+        })
+          .then(respuesta => respuesta.json())
+          .then(datos =>{
+            //console.log(datos)
+
+            cuerpoTabla.innerHTML = ``;
+            datos.forEach(element =>{
+              const fila = `
+                <tr>
+                  <td>${element.id}</td>
+                  <td>${element.superhero_name}</td>
+                  <td>${element.full_name}</td>
+                  <td>${element.gender}</td>
+                  <td>${element.skin_colour}</td>
+                  <td>${element.race}</td>
+                  <td>${element.alignment}</td>
+                  <td>${element.heigt_cm}</td>
+                </tr>
+              `;
+              cuerpoTabla.innerHTML += fila;
+
+            });
+          });
+      }
+
+      //Evento
+      lista.addEventListener("change",obtenerSuperHero);
+
+
+      //Funcion carga cunado documento este listo
+      obtenerPublishers();
 
     });
       

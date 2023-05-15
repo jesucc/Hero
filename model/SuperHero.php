@@ -1,7 +1,7 @@
 <?php
   require_once 'Conexion.php';
 
-  class Publisher extends Conexion{
+  class SuperHero extends Conexion{
     private $Conexion;
 
     // constructor
@@ -10,14 +10,14 @@
       $this->conexion = parent::getConexion();
     }
 
-    public function listarPublisher(){
+    public function listarSuperhero($publisher_id){
       try{
-        $consulta = $this->conexion->prepare("CALL spu_superhero_list");
-        $consulta->execute();
+        $consulta = $this->conexion->prepare("CALL spu_superhero_list(?)");
+        $consulta->execute(array($publisher_id));
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
       }
       catch(Exception $e){
-        die($e->getMessage());
+        die($e->getMessage);
       }
     }
 
