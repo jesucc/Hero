@@ -7,19 +7,18 @@
       <col style='width: 5%'>
       <col style='width: 35%'>
       <col style='width: 15%'>
-      <col style='width: 25%'>
+      <col style='width: 35%'>
       <col style='width: 10%'>
-      <col style='width: 10%' class="text-end">
+
     </colgroup>
 
     <tr>
 
       <th>ID</th>
       <th>Nombre</th>
-      <th>Género</th>
-      <th>Raza</th>
-      <th>Bando</th>
-      <th>Estatura</th>
+      <th>Color Piel</th>
+      <th>Genero</th>
+      <th>Altura</th>
 
     </tr>
   </thead>
@@ -28,11 +27,10 @@
       <tr>
         <td><?=$registro['id']?></td>
         <td><?=$registro['superhero_name']?></td>
-        <td><?=$registro['gender']?></td>
-        <td><?=$registro['race']?></td>
-        <td><?=$registro['alignment']?></td>
-        <td><?=$registro['height_cm']?></td>
+        <td><?=$registro['hair_colour']?></td>
+        <td><?=$registro['publisher_name']?></td>
+        <td><?=$registro['weight_kg']?></td>
       </tr>
     <?php endforeach;?>
   </tbody>
-</table>
+</table>+

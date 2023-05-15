@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,40 +14,25 @@
     <div class="row mt-3 mb-3">
       <div class="col-md-12">
           <div class="card">
-            <div class="card-header bg-info text-light">
+            <div class="card-header bg-secondary text-light">
                 Filtra tus super Héroes
             </div>
            
               <div class="card-body">
 
-                <div class="input-group mb-3">
-                  <div class="form-floating">
-                    <div class="input-group mb-3">
-                      
-                      <select name="" id="publishers" class="form-select">
-                        <option value="">Seleccione</option>
-                      </select>
-                      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-                    </div>
+
+                  <div class="input-group">
+
+                      <div class="form-floating">
+                        <select class="form-select" id="publishers">
+                          <option selected>Seleccione</option>
+                        </select>
+                        <label for="">Universo</label>
+                      </div> 
+
+                    <button type ="button" class="btn btn-danger btn-sm" id="exportar">Exportar PDF</button>
                   </div>
-                    
-                </div>
-                
-
-                <div class="input-group mb-3">
-                  <div class="form-floating">
-                  
-                    
-                    <select name="" id="publishers" class="form-select">
-                      <option value="">Seleccione</option>
-                    </select>
-                    <label for="">Universo</label>
-                   
-
-                   
-
-                  </div>
-                </div>
+               
               </div>
         
           </div>
@@ -57,7 +42,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table id="tablaHero" class="table tbale-sm table-striped">
+        <table id="tablaHero" class="table table-bordered border-black  table-striped table-hover" >
           <thead>
             <tr>
               <th>ID</th>
@@ -81,6 +66,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+      const exportarPDF = document.querySelector('#exportar');
       const tablaHero = document.querySelector("#tablaHero");
       const cuerpoTabla = document.querySelector('tbody');
       const lista = document.querySelector("#publishers");
@@ -130,7 +116,7 @@
                   <td>${element.skin_colour}</td>
                   <td>${element.race}</td>
                   <td>${element.alignment}</td>
-                  <td>${element.heigt_cm}</td>
+                  <td>${element.height_cm}</td>
                 </tr>
               `;
               cuerpoTabla.innerHTML += fila;
@@ -139,9 +125,15 @@
           });
       }
 
+      function generarPDF(){
+        const parametros = new URLSearchParams();
+        parametros.append("publisher_id", parseInt(lista.value));
+        parametros.append("titulo", lista.options[lista.selectedIndex].text);
+        window.open(`./reports/superhero.report.php?${parametros}`,'_blank');
+      }
       //Evento
       lista.addEventListener("change",obtenerSuperHero);
-
+      exportarPDF.addEventListener("click", generarPDF);
 
       //Funcion carga cunado documento este listo
       obtenerPublishers();

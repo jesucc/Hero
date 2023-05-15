@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtro</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+      <div class="row mt-3 mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header bg-secondary text-light">
+                Filtro
+            </div>
+           
+              <div class="card-body">
+                <div class="input-group">
+                    <div class="form-floating">
+                      <select class="form-select" id="race">
+                        <option selected>Seleccione</option>
+                      </select>
+                      <label for="">Raza</label>
+                    </div> 
+
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="input-group">
+                    <div class="form-floating">
+                      <select class="form-select" id="Gender">
+                        <option selected>Seleccione</option>
+                      </select>
+                      <label for="">Género</label>
+                    </div> 
+
+               </div>
+            </div>
+
+            <div class="card-body">
+              <div class="input-group">
+                  <div class="form-floating">
+                    <select class="form-select" id="Alignment">
+                      <option selected>Seleccione</option>
+                    </select>
+                    <label for="">Bando</label>
+                  </div> 
+                <button type ="button" class="btn btn-danger btn-sm" id="exportar">Exportar PDF</button>
+             </div>
+
+           </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table id="tablaFiltro" class="table table-bordered border-black  table-striped table-hover" >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Color piel</th>
+                <th>Genero</th>
+                <th>Altura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--asincronico-->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+
+
+        
+        const listaR = document.querySelector("#race");
+        const listaG = document.querySelector("#Gender");
+        const listaA = document.querySelector("#Alignment");
+
+        const exportarPDF = document.querySelector('#exportar');
+        const tablaFiltro = document.querySelector("#tablaFiltro");
+        const cuerpoTabla = document.querySelector("tbody");
+
+        function listarRace(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarRace");
+
+          fetch('./controller/Race.php', {
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos  =>{
+              //console.log(datos);
+              datos.forEach(element => {
+                const optionTag = document.createElement('option');
+                optionTag.value = element.id;
+                optionTag.text = element.race;
+                listaR.appendChild(optionTag);
+              });
+            })
+        }
+
+        function listarGender(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarGender");
+
+          fetch('./controller/Gender.php', {
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos =>{
+              datos.forEach(element => {
+                const optionTag = document.createElement('option');
+                optionTag.value = element.id;
+                optionTag.text = element.gender;
+                listaG.appendChild(optionTag);
+              })
+            })
+        }
+
+        function listarAlignment(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarAlignment");
+
+          fetch('./controller/Alignment.php', {
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos =>{
+              datos.forEach(element => {
+                const optionTag = document.createElement('option');
+                optionTag.value = element.id;
+                optionTag.text = element.alignment;
+                listaA.appendChild(optionTag);
+              })
+            })
+        }
+        
+        /*
+        function obtenerRace(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarRace");
+          parametros.append("race_id", parseInt(listaR.value));
+
+          fetch('./controller/SuperHero.php',{
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+              console.log(datos);
+
+              cuerpoTabla.innerHTML = ``;
+              datos.forEach(element => {
+                const fila = `
+                  <tr>
+                      <td>${element.id}</td>
+                      <td>${element.superhero_name}</td>
+                      <td>${element.hair_colour}</td>
+                      <td>${element.publisher_name}</td>
+                      <td>${element.weight_kg}</td>
+
+                  </tr>
+                `;
+
+                cuerpoTabla.innerHTML += fila;
+              })
+            })
+        }
+
+        function obtenerGender(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarGender");
+          parametros.append("gender_id", parseInt(listaG.value));
+
+          fetch('./controller/SuperHero.php',{
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+              console.log(datos);
+
+              cuerpoTabla.innerHTML = ``;
+              datos.forEach(element => {
+                const fila = `
+                  <tr>
+                      <td>${element.id}</td>
+                      <td>${element.superhero_name}</td>
+                      <td>${element.hair_colour}</td>
+                      <td>${element.publisher_name}</td>
+                      <td>${element.weight_kg}</td>
+
+                  </tr>
+                `;
+
+                cuerpoTabla.innerHTML += fila;
+              })
+            })
+        }
+
+        function obtenerAlignment(){
+          const parametros = new URLSearchParams();
+          parametros.append("operacion", "listarAlignment");
+          parametros.append("alignment_id", parseInt(listaA.value));
+
+          fetch('./controller/SuperHero.php',{
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+              console.log(datos);
+
+              cuerpoTabla.innerHTML = ``;
+              datos.forEach(element => {
+                const fila = `
+                  <tr>
+                      <td>${element.id}</td>
+                      <td>${element.superhero_name}</td>
+                      <td>${element.hair_colour}</td>
+                      <td>${element.publisher_name}</td>
+                      <td>${element.weight_kg}</td>
+
+                  </tr>
+                `;
+
+                cuerpoTabla.innerHTML += fila;
+              })
+            })
+        }
+
+
+        listaR.addEventListener("change",obtenerRace);
+        listaG.addEventListener("change",obtenerGender);
+        listaA.addEventListener("change",obtenerAlignment);
+        */
+
+        function filtro(){
+          const parametros = new URLSearchParams();
+
+          parametros.append("operacion","filtro");
+
+          parametros.append("race_id", parseInt(listaR.value));
+          parametros.append("gender_id", parseInt(listaG.value));
+          parametros.append("alignment_id", parseInt(listaA.value));
+
+          fetch('./controller/SuperHero.php',{
+            method: 'POST',
+            body: parametros
+          })
+            .then(respuesta => respuesta.json())
+            .then(datos =>{
+              console.log(datos)
+
+              cuerpoTabla.innerHTML = ``;
+              datos.forEach(element =>{
+                const fila = `
+                  <tr>
+                    <td>${element.id}</td>
+                      <td>${element.superhero_name}</td>
+                      <td>${element.hair_colour}</td>
+                      <td>${element.publisher_name}</td>
+                      <td>${element.weight_kg}</td>
+                  </tr>
+                `;
+                cuerpoTabla.innerHTML += fila;
+
+              });
+            });
+        }
+        
+        function generarPDF(){
+          const parametros = new URLSearchParams();
+          parametros.append("race_id", parseInt(listaR.value));
+          parametros.append("gender_id", parseInt(listaR.value));
+          parametros.append("alignment_id", parseInt(listaA.value));
+          parametros.append("titulo", listaA.options[listaA.selectedIndex].text);
+          window.open(`./reports/superhero.report.php?${parametros}`,'_blank');
+        }
+        listaA.addEventListener("change",filtro);
+        exportarPDF.addEventListener("click", generarPDF);
+        
+        listarRace();
+        listarGender();
+        listarAlignment();
+        
+      });
+    </script>
+
+
+
+</body>
+</html>                 

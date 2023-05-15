@@ -13,4 +13,46 @@ if(isset($_POST['operacion'])){
       echo json_encode($datos);
     }
   }
+
+  if($_POST['operacion'] == 'filtro'){
+
+    $datos = $superhero->filtro
+    ($_POST['race_id'],
+    $_POST['gender_id'],
+    $_POST['alignment_id']
+    );
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+
+
+
+  /* 
+   if($_POST['operacion'] == 'listarRace'){
+
+    $datos = $superhero->listarRace($_POST['race_id']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'listarGender'){
+
+    $datos = $superhero->listarGender($_POST['gender_id']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  if($_POST['operacion'] == 'listarAlignment'){
+
+    $datos = $superhero->listarAlignment($_POST['alignment_id']);
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+  */
+ 
 }

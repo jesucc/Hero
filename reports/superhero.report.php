@@ -20,8 +20,18 @@ try {
 
     //Archvos que componen PDF
     $superhero = new SuperHero();
-    $datos = $superhero->listarSuperhero(3);
+    $datos = $superhero->listarSuperhero($_GET['publisher_id']);
+    $titulo = $_GET['titulo'];
 
+
+    
+    ob_start();
+
+    
+    $superhero = new SuperHero();
+    $datos = $superhero->listarRace($_GET['race_id'],$_GET['gender_id'],$_GET['alignment_id']);
+    $titulo = $_GET['titulo'];
+        
     ob_start();
 
     //Hoja de estilos
