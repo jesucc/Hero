@@ -1,4 +1,4 @@
-<h1 class="text-center text-md"><?=$titulo?></h1>
+<h1 class="text-center text-md"> <?=$titulo1?> <?=$titulo2?> <?=$titulo3?> </h1>
 
 
 <table class="table table-border mt-3">
@@ -33,4 +33,4 @@
       </tr>
     <?php endforeach;?>
   </tbody>
-</table>+
+</table>

@@ -45,12 +45,7 @@ SELECT * FROM alignment;
 
 -- RACE
 DELIMITER $$
-CREATE PROCEDURE spu_filtro_list
-(
-IN _race_id INT
-IN _gender_id INT
-IN _alignment_id INT
-)
+CREATE PROCEDURE spu_racefiltro_list(IN _race_id INT)
 BEGIN
 	SELECT  
 		
@@ -64,9 +59,11 @@ BEGIN
 		INNER JOIN colour c1 ON c1.`id` = superhero.`hair_colour_id`
 		LEFT  JOIN race ON race.`id` = superhero.`race_id`
 		LEFT  JOIN publisher ON publisher.`id` = superhero.`publisher_id`
-	WHERE superhero.`race_id` = _race_id AND superhero.`gender_id` = _gender_id AND superhero.`alignment_id` = _alignment_id
+	WHERE superhero.`race_id` = _race_id
 	ORDER BY superhero.`id`;
 END $$
+
+CALL spu_racefiltro_list(2);
 -- GENDER
 
 DELIMITER $$
@@ -109,5 +106,30 @@ BEGIN
 END $$
 	ORDER BY superhero.`id`;
 
+-- fitro
 
-CALL spu_alignmentfiltro_list(1);
+DELIMITER $$
+CREATE PROCEDURE spu_filtro_list
+(
+IN _race_id INT,
+IN _gender_id INT,
+IN _alignment_id INT
+)
+BEGIN
+	SELECT  
+		
+		superhero.`id`,
+		superhero.`superhero_name`,
+		c1.`colour` 'hair_colour',
+		publisher.`publisher_name`,
+		superhero.`weight_kg`
+		
+	FROM superhero
+		INNER JOIN colour c1 ON c1.`id` = superhero.`hair_colour_id`
+		LEFT  JOIN race ON race.`id` = superhero.`race_id`
+		LEFT  JOIN publisher ON publisher.`id` = superhero.`publisher_id`
+	WHERE superhero.`race_id` = _race_id AND superhero.`gender_id` = _gender_id AND superhero.`alignment_id` = _alignment_id
+	ORDER BY superhero.`id`;
+END $$
+
+CALL spu_filtro_list(1,2,1);

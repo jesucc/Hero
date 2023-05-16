@@ -16,11 +16,7 @@ if(isset($_POST['operacion'])){
 
   if($_POST['operacion'] == 'filtro'){
 
-    $datos = $superhero->filtro
-    ($_POST['race_id'],
-    $_POST['gender_id'],
-    $_POST['alignment_id']
-    );
+    $datos = $superhero->filtro($_POST['race_id'],$_POST['gender_id'],$_POST['alignment_id']);
     if($datos){
       echo json_encode($datos);
     }

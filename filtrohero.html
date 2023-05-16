@@ -10,51 +10,55 @@
 
 </head>
 <body>
-    <div class="container">
-      <div class="row mt-3 mb-3">
-        <div class="col-md-12">
+  <div class="container">
+    <div class="row mt-3 mb-3">
+      <div class="col-md-12">
           <div class="card">
             <div class="card-header bg-secondary text-light">
                 Filtro
             </div>
            
-              <div class="card-body">
-                <div class="input-group">
-                    <div class="form-floating">
-                      <select class="form-select" id="race">
-                        <option selected>Seleccione</option>
-                      </select>
-                      <label for="">Raza</label>
-                    </div> 
-
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md mt-3 ">
+                  <div class="form-floating">
+                    <select class="form-select" id="race">
+                      <option selected>Seleccione</option>
+                    </select>
+                    <label for="">Raza</label>
+                  </div> 
                 </div>
-              </div>
-
-              <div class="card-body">
-                <div class="input-group">
+          
+                  <div class="col-md mt-3">
                     <div class="form-floating">
                       <select class="form-select" id="Gender">
                         <option selected>Seleccione</option>
                       </select>
                       <label for="">Género</label>
                     </div> 
+                  </div>
+              
+                  <div class="col-md mt-3">
+                    <div class="form-floating">
+                      <select class="form-select" id="Alignment">
+                        <option selected>Seleccione</option>
+                      </select>
+                      <label for="">Bando</label>
+                    </div> 
+                  </div>
+              </div>
 
-               </div>
+              <div class="row g-2 mt-3">
+                  
+                <button type ="button" class="btn btn-secondary btn-sm" id="buscar">Buscar</button>
+                   
+                <button type ="button" class="btn btn-dark btn-sm" id="exportar">Exportar PDF</button>
+              </div>
+              
+
             </div>
 
-            <div class="card-body">
-              <div class="input-group">
-                  <div class="form-floating">
-                    <select class="form-select" id="Alignment">
-                      <option selected>Seleccione</option>
-                    </select>
-                    <label for="">Bando</label>
-                  </div> 
-                <button type ="button" class="btn btn-danger btn-sm" id="exportar">Exportar PDF</button>
-             </div>
-
-           </div>
-
+          
           </div>
         </div>
       </div>
@@ -290,9 +294,14 @@
           parametros.append("race_id", parseInt(listaR.value));
           parametros.append("gender_id", parseInt(listaR.value));
           parametros.append("alignment_id", parseInt(listaA.value));
-          parametros.append("titulo", listaA.options[listaA.selectedIndex].text);
-          window.open(`./reports/superhero.report.php?${parametros}`,'_blank');
+          parametros.append("titulo2", listaG.options[listaR.selectedIndex].text);
+          parametros.append("titulo1", listaR.options[listaG.selectedIndex].text);
+          parametros.append("titulo3", listaA.options[listaA.selectedIndex].text);
+          window.open(`./reports/filtrohero.report.php?${parametros}`,'_blank');
         }
+
+        listaR.addEventListener("change",filtro);
+        listaG.addEventListener("change",filtro);
         listaA.addEventListener("change",filtro);
         exportarPDF.addEventListener("click", generarPDF);
         

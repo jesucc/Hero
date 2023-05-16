@@ -18,19 +18,20 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 try {
 
-    //Archvos que componen PDF
     $superhero = new SuperHero();
-    $datos = $superhero->listarSuperhero($_GET['publisher_id']);
-    $titulo = $_GET['titulo'];
-    
-    
-   ob_start();
+    $datos = $superhero->filtro(
+        $_GET['race_id'],
+        $_GET['gender_id'],
+        $_GET['alignment_id']);
+        $titulo1 = $_GET['titulo1'];
+        $titulo2 = $_GET['titulo2'];
+        $titulo3 = $_GET['titulo3'];        
+    ob_start();
 
-    
     //Hoja de estilos
     include './estilos.report.html';
     //Archivoscon datos 
-    include './superhero.data.php';
+    include './filtros.php';
 
     $content = ob_get_clean();
 
