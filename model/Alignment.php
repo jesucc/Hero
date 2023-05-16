@@ -13,7 +13,7 @@ class Alignment extends Conexion{
     try{
       $consulta = $this->conexion->prepare("SELECT * FROM alignment");
       $consulta->execute();
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $consulta->fetchAll(PDO::FETCH_NUM);
     }
     catch(Exception $e){
           die($e->getMessage());

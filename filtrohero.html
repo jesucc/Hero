@@ -48,38 +48,40 @@
                   </div>
               </div>
 
-              <div class="row g-2 mt-3">
-                  
-                <button type ="button" class="btn btn-secondary btn-sm" id="buscar">Buscar</button>
-                   
-                <button type ="button" class="btn btn-dark btn-sm" id="exportar">Exportar PDF</button>
+              <div class="row g-0 mt-3">
+                <button type ="button" class="btn btn-outline-secondary" id="filtrar">Filtrar datos</button>
+               
               </div>
-              
 
-            </div>
+              <div class="row g-0 mt-3">
+                  <button type ="button" class="btn btn-outline-danger" id="exportar">Exportar PDF</button>
+              </div>
+              <hr>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <table id="tablaFiltro" class="table table-bordered border-black  table-striped table-hover" >
+                    <thead class="table-dark" >
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Color piel</th>
+                        <th>Genero</th>
+                        <th>Altura</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--asincronico-->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-          
+
+            </div> 
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <table id="tablaFiltro" class="table table-bordered border-black  table-striped table-hover" >
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Color piel</th>
-                <th>Genero</th>
-                <th>Altura</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--asincronico-->
-            </tbody>
-          </table>
-        </div>
-      </div>
+      
 
 
     </div>
@@ -92,12 +94,13 @@
         const listaR = document.querySelector("#race");
         const listaG = document.querySelector("#Gender");
         const listaA = document.querySelector("#Alignment");
+        const btFiltrar = document.querySelector("#filtrar");
 
         const exportarPDF = document.querySelector('#exportar');
         const tablaFiltro = document.querySelector("#tablaFiltro");
         const cuerpoTabla = document.querySelector("tbody");
 
-        function listarRace(){
+        /*function listarRace(){
           const parametros = new URLSearchParams();
           parametros.append("operacion", "listarRace");
 
@@ -154,7 +157,7 @@
               })
             })
         }
-        
+        */
         /*
         function obtenerRace(){
           const parametros = new URLSearchParams();
@@ -255,6 +258,25 @@
         listaA.addEventListener("change",obtenerAlignment);
         */
 
+        function getSelectData(operacion = "", objectSelect) {
+          const parametros = new URLSearchParams();
+          parametros.append("operacion",operacion);
+          fetch('./controller/filters.php',{
+            method: 'POST',
+            body: parametros
+          })
+           .then(response => response.json())
+           .then(datos => {
+              datos.forEach(element => {
+                const optionTAG = document.createElement("option");
+
+                optionTAG.value = element[0];
+                optionTAG.text = element[1];
+                objectSelect.appendChild(optionTAG);
+              });
+           });
+        }
+
         function filtro(){
           const parametros = new URLSearchParams();
 
@@ -270,8 +292,6 @@
           })
             .then(respuesta => respuesta.json())
             .then(datos =>{
-              console.log(datos)
-
               cuerpoTabla.innerHTML = ``;
               datos.forEach(element =>{
                 const fila = `
@@ -286,7 +306,11 @@
                 cuerpoTabla.innerHTML += fila;
 
               });
-            });
+            })
+            .catch(error =>{
+              cuerpoTabla.innerHTML = ``;
+              alert("NO encomtramos datos")
+            })
         }
         
         function generarPDF(){
@@ -294,21 +318,28 @@
           parametros.append("race_id", parseInt(listaR.value));
           parametros.append("gender_id", parseInt(listaR.value));
           parametros.append("alignment_id", parseInt(listaA.value));
-          parametros.append("titulo2", listaG.options[listaR.selectedIndex].text);
           parametros.append("titulo1", listaR.options[listaG.selectedIndex].text);
+          parametros.append("titulo2", listaG.options[listaR.selectedIndex].text);
           parametros.append("titulo3", listaA.options[listaA.selectedIndex].text);
           window.open(`./reports/filtrohero.report.php?${parametros}`,'_blank');
         }
 
-        listaR.addEventListener("change",filtro);
+        /*listaR.addEventListener("change",filtro);
         listaG.addEventListener("change",filtro);
-        listaA.addEventListener("change",filtro);
+        listaA.addEventListener("change",filtro);*/
         exportarPDF.addEventListener("click", generarPDF);
-        
-        listarRace();
+        /*listarRace();
         listarGender();
-        listarAlignment();
+        listarAlignment();*/
         
+        
+        
+        getSelectData("listarRazas", listaR);
+        getSelectData("listarGeneros", listaG);
+        getSelectData("listarBandos", listaA);
+
+        btFiltrar.addEventListener("click", filtro);
+      
       });
     </script>
 
