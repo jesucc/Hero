@@ -23,9 +23,9 @@ try {
         $_GET['race_id'],
         $_GET['gender_id'],
         $_GET['alignment_id']);
-        $titulo1 = $_GET['titulo1'];
-        $titulo2 = $_GET['titulo2'];
-        $titulo3 = $_GET['titulo3'];        
+
+        $titulo= $_GET['titulo'];
+       
     ob_start();
 
     //Hoja de estilos

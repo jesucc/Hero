@@ -86,6 +86,8 @@
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
       document.addEventListener("DOMContentLoaded", () => {
 
@@ -316,18 +318,29 @@
         function generarPDF(){
           const parametros = new URLSearchParams();
           parametros.append("race_id", parseInt(listaR.value));
-          parametros.append("gender_id", parseInt(listaR.value));
+          parametros.append("gender_id", parseInt(listaG.value));
           parametros.append("alignment_id", parseInt(listaA.value));
-          parametros.append("titulo1", listaR.options[listaG.selectedIndex].text);
+
+          let titulo = '';
+          titulo += listaR.options[listaR.selectedIndex].text.trim() + " - ";
+          titulo += listaG.options[listaG.selectedIndex].text.trim() + " - ";
+          titulo += listaA.options[listaA.selectedIndex].text.trim();
+
+          /*parametros.append("titulo1", listaR.options[listaG.selectedIndex].text);
           parametros.append("titulo2", listaG.options[listaR.selectedIndex].text);
-          parametros.append("titulo3", listaA.options[listaA.selectedIndex].text);
-          window.open(`./reports/filtrohero.report.php?${parametros}`,'_blank');
+          parametros.append("titulo3", listaA.options[listaA.selectedIndex].text);*/
+
+          parametros.append("titulo", titulo);
+
+          console.log(titulo);
+
+          window.open(`./reports/filtrohero.report.php?${parametros}`,`_blank`);
         }
 
         /*listaR.addEventListener("change",filtro);
         listaG.addEventListener("change",filtro);
         listaA.addEventListener("change",filtro);*/
-        exportarPDF.addEventListener("click", generarPDF);
+       
         /*listarRace();
         listarGender();
         listarAlignment();*/
@@ -339,7 +352,7 @@
         getSelectData("listarBandos", listaA);
 
         btFiltrar.addEventListener("click", filtro);
-      
+        exportarPDF.addEventListener("click", generarPDF);
       });
     </script>
 

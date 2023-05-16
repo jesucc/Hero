@@ -1,4 +1,4 @@
-<h1 class="text-center text-md"> <?=$titulo1?> <?=$titulo2?> <?=$titulo3?> </h1>
+<h1 class="text-center text-md"><?=$titulo?></h1>
 
 
 <table class="table table-border mt-3">
@@ -17,7 +17,7 @@
       <th>ID</th>
       <th>Nombre</th>
       <th>Color Piel</th>
-      <th>Genero</th>
+      <th>publicado</th>
       <th>Altura</th>
 
     </tr>

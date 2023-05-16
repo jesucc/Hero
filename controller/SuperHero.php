@@ -22,6 +22,13 @@ if(isset($_POST['operacion'])){
     }
   }
 
+  
+  if($_POST['operacion'] == 'resumenBandos'){
+    $datos = $superhero->getAlignmentResume();
+    renderJSON($datos);
+  }
+
+
 
 
 

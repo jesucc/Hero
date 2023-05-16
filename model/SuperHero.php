@@ -32,6 +32,17 @@
       }
     }
 
+    public function getAlignmentResume(){
+      try{
+        $consulta = $this->conexion->prepare("CALL spu_superhero_alignment_resume()");
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      }
+      catch(Exception $e){
+        die($e->getMessage);
+      }
+    }
+
 
 
 
